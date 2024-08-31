@@ -4,16 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Paste;
+
 use Illuminate\Support\Facades\DB;
 
 class PastesController extends Controller
 {
 
-    public function __construct(){
+        public function __construct(){
 
         $this->middleware('auth');
 
     }
+
+    // indexメソッド
+    public function index()
+    {
+        // データベースから全ての投稿を取得
+        $lists = Paste::all();
+
+        // ビューにデータを渡して表示
+        return view('pastes.index', compact('lists'));
+    }
+
+
 
     public function hi(){
 
@@ -23,74 +37,79 @@ class PastesController extends Controller
 
     }
 
-    public function index(){
+    // 検索機能
+    public function search(Request $request){
 
-        $list = DB::table('pastes')->get();
+        //検索クエリを取得
+        $search = $request->input('search');
 
-        return view('pastes.index',['lists'=>$list]);
+        // 検索キーワードが存在する場合にのみ検索を実行
+        $lists = Paste::when($search, function ($query, $search) {
+            return $query->where('pasta', 'like', '%' . $search . '%');
+        })->get();
+
+        // $list = DB::table('pastes')->get();
+
+        // 検索結果がない場合の処理
+    if ($lists->isEmpty()) {
+        return view('pastes.index', ['message' => '検索結果は0件です']);
+    }
+
+        // ビューに結果を渡す
+        return view('pastes.index', compact('lists'));
 
     }
 
-    public function createForm(){
-
-        return view('pastes.createForm');
-
+        // 新規作成フォーム
+    public function create()
+    {
+        return view('pastes.create');
     }
 
-    public function create(Request $request){
-
-        $pasta = $request->input('newPost');
-
-        DB::table('pastes')->insert([
-
-            'pasta' => $pasta
+    // 新規作成後処理
+           public function store(Request $request)
+    {
+        // バリデーション
+        $request->validate([
+            'pasta' => 'required|string|max:255',
         ]);
 
-        return redirect('/index_Pa');
+        // データを保存
+        Paste::create([
+            'pasta' => $request->input('pasta'),
+        ]);
 
+        return redirect()->route('pastes.index');
     }
 
-    public function updateForm($id){
-
-        $pasta = DB::table('pastes')
-
-        ->where('id', $id)
-
-        ->first();
-
-        return view('pastes.updateForm', ['pasta' => $pasta]);
-
+    // 既存の投稿を編集するためのメソッド
+    public function edit($id)
+    {
+        $paste = Paste::findOrFail($id); // 特定のIDの投稿を取得
+        return view('pastes.edit', compact('paste')); // ビューにデータを渡す
     }
 
-    public function update(Request $request){
+    // 更新メソッド（editメソッドと併せて使用される）
+    public function update(Request $request, $id)
+    {
+        // バリデーション
+        $request->validate([
+            'pasta' => 'required|string|max:255',
+        ]);
 
-        $id = $request->input('id');
+        // 投稿を更新
+        $paste = Paste::findOrFail($id);
+        $paste->update([
+            'pasta' => $request->input('pasta'),
+        ]);
 
-        $up_post = $request->input('upPost');
-
-        DB::table('pastes')
-
-        ->where('id',$id)
-
-        ->update(
-
-            ['pasta' => $up_post]
-        );
-
-        return redirect('/index_Pa');
-
+        return redirect()->route('pastes.index');
     }
 
     public function delete($id){
-
-        DB::table('pastes')
-
-        ->where('id', $id)
-
-        ->delete();
-
-
-        return redirect('/index_Pa');
+        $paste = Paste::findOrFail($id); // 特定のIDの投稿を取得
+        $paste->delete(); // 投稿を削除
+        return redirect()->route('pastes.index');
 
     }
 

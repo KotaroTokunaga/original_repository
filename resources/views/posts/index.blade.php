@@ -42,7 +42,7 @@
 
 <td><a class="btn btn-primary" href="/post/{{$list->id}}/update-form">更新</a></td>
 
-<td><a class="btn btn-danger" href="/post/{{$list->id}}/delete" onclick="return confirm('こちらの投稿を削除してもよろしいんちゃうか？')">削除</a></td>
+<td><a class="btn btn-danger" href="/post/{{$list->id}}/delete" onclick="return confirm('こちらの投稿を削除してもよろしいですか？')">削除</a></td>
 
 </tr>
 

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 
 use App\Http\Controllers\PastesController;
+
+use App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,11 +38,14 @@ Route::get('index',[PostsController::class, 'index']);
 
 // http://127.0.0.1:8000/index というリンクでアクセスできるページが作られた。PostsControllerのindexメソッドを利用しページを展開している
 
-Route::get('index_Pa',[PastesController::class, 'index']);
+// パスタ好きの集うサイト_投稿一覧ページ
+Route::get('index_Pa',[PastesController::class, 'index'])->name('pastes.index');
+
+// http://127.0.0.1:8000/index_Pa というリンクでアクセスできるページが作られた。PastesControllerのindex_Paメソッドを利用しページを展開している
 
 Route::get('/create-form', [PostsController::class, 'createForm']);
 
-Route::get('/create-form-Pa', [PastesController::class, 'createForm']);
+Route::get('/create-form-Pa', [PastesController::class, 'create'])->name('pastes.create');
 
 Route::post('post/create', [PostsController::class, 'create']);
 
@@ -64,4 +69,23 @@ Route::get('pasta/{id}/delete', [PastesController::class, 'delete']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [PastesController::class, 'index']);
+
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/custom-logout-route', function () {
+    return view('welcome'); // カスタムのビューにリダイレクト
+})->name('custom.logout');
+
+Route::post('/search', [PastesController::class, 'search'])->name('pastes.search');
+
+// 投稿編集画面のルートを定義、（// パスタ好きの集うサイト_投稿編集）
+Route::get('/pastes/{id}/edit', [PastesController::class, 'edit'])->name('pastes.edit');
+
+// 投稿更新処理のルートを定義（POSTまたはPATCHメソッドを使用）
+Route::patch('/pastes/{id}', [PastesController::class, 'update'])->name('pastes.update');
+
+// 投稿を削除するためのリクエスト
+Route::delete('/pastes/{id}', [PastesController::class, 'delete'])->name('pastes.delete');
+
+Route::post('/pastes/store', [PastesController::class, 'store'])->name('pastes.store');

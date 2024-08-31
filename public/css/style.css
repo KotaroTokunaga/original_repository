@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+h1 {
+  color: green;
+  margin: 20px;
+  text-align: center;
+}
+
+
+.btn-primary {
+  --bs-btn-color: #fff;
+}
+
+footer {
+  text-align: center;
+}
