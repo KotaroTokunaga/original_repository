@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Paste;
 
+use App\Http\Requests\CustomRequest;
+
 use Illuminate\Support\Facades\DB;
 
 class PastesController extends Controller
@@ -15,6 +17,11 @@ class PastesController extends Controller
 
         $this->middleware('auth');
 
+    }
+
+    public function login()
+    {
+        return view('auth.login');
     }
 
     // indexメソッド
@@ -72,6 +79,7 @@ class PastesController extends Controller
         // バリデーション
         $request->validate([
             'pasta' => 'required|string|max:255',
+            'name' => ['required', 'not_only_spaces'],
         ]);
 
         // データを保存

@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/custom-logout-route';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -47,7 +47,7 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return $this->loggedOut($request) ?: redirect('/custom-logout-route');
+        return $this->loggedOut($request) ?: redirect('/home');
     }
 
     protected function loggedOut(Request $request)

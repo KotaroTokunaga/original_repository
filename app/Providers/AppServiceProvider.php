@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Support\Facades\Validator;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Validator::extend('not_only_spaces', function($attribute, $value, $parameters, $validator) {
+        return !preg_match('/^[\s\x{3000}]+$/u', $value);
+    }, '名前は空白のみでは登録できません。');
     }
 }

@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CustomRequest extends FormRequest
+{
+    public function rules()
+    {
+        return [
+            'name' => ['required', 'not_only_spaces'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.not_only_spaces' => '名前は空白のみでは登録できません。',
+        ];
+    }
+}

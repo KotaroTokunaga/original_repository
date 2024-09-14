@@ -20,9 +20,9 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [PastesController::class,'login']);
+
 
 // 追加するルーティング
 
