@@ -6,6 +6,9 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Paste;
+
+
 class PastesTableSeeder extends Seeder
 {
     /**
@@ -17,21 +20,41 @@ class PastesTableSeeder extends Seeder
     {
         //以下追加
 
-        DB::table('pastes')->insert([
+        Paste::create(
 
-            ['pasta'=>'1つ目のパスタになります'],
+            ['pasta'=>'1つ目のパスタになります']
 
-            ['pasta'=>'Laravelのパスタクッキングページを作りました'],
+        );
+        Paste::create(
 
-            ['pasta'=>'パスタクッキングについてのCRUD一式を作っています'],
+            ['pasta'=>'Laravelのパスタクッキングページを作りました']
 
-            ['pasta'=>'茹でて食べるだなんて今の時代に…'],
+        );
+        Paste::create(
 
-            ['pasta'=>'蟹道楽…'],
+            ['pasta'=>'茹でて食べよう']
 
-            ['pasta'=>'ロトシックス100億円'],
+        );
+        Paste::create(
 
-            ['pasta'=>'フォークの進みが！！止まらねェ！！！']
-        ]);
+            ['pasta'=>'パスタクッキングについてのCRUD一式を作っています']
+
+        );
+        Paste::create(
+
+            ['pasta'=>'ジェノベーゼ'],
+
+        );
+        Paste::create(
+
+            ['pasta'=>'ロトシックス100億円']
+
+        );
+        Paste::create(
+
+            ['pasta'=>'フォークで食べ進めよう']
+
+        );
+
     }
 }

@@ -24,6 +24,7 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/', [PastesController::class,'login']);
 
 
+
 // 追加するルーティング
 
 // Route::get('hello',function(){
@@ -39,7 +40,9 @@ Route::get('index',[PostsController::class, 'index']);
 // http://127.0.0.1:8000/index というリンクでアクセスできるページが作られた。PostsControllerのindexメソッドを利用しページを展開している
 
 // パスタ好きの集うサイト_投稿一覧ページ
-Route::get('index_Pa',[PastesController::class, 'index'])->name('pastes.index');
+Route::get('/pastes',[PastesController::class, 'index'])->name('pastes.index');
+
+
 
 // http://127.0.0.1:8000/index_Pa というリンクでアクセスできるページが作られた。PastesControllerのindex_Paメソッドを利用しページを展開している
 
@@ -88,4 +91,4 @@ Route::patch('/pastes/{id}', [PastesController::class, 'update'])->name('pastes.
 // 投稿を削除するためのリクエスト
 Route::delete('/pastes/{id}', [PastesController::class, 'delete'])->name('pastes.delete');
 
-Route::post('/pastes/store', [PastesController::class, 'store'])->name('pastes.store');
+Route::post('/pastes', [PastesController::class, 'store'])->name('pastes.store');

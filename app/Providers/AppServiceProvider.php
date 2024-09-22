@@ -25,8 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extend('not_only_spaces', function($attribute, $value, $parameters, $validator) {
-        return !preg_match('/^[\s\x{3000}]+$/u', $value);
+        Validator::extend('not_only_spaces', function ($attribute, $value, $parameters, $validator) {
+        return trim($value) !== '';
     }, '名前は空白のみでは登録できません。');
+        // Validator::extend('not_only_spaces', function($attribute, $value, $parameters, $validator) {
+        // return !preg_match('/^[\s\x{3000}]+$/u', $value);
     }
 }
