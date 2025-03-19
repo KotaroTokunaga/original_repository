@@ -92,3 +92,5 @@ Route::patch('/pastes/{id}', [PastesController::class, 'update'])->name('pastes.
 Route::delete('/pastes/{id}', [PastesController::class, 'delete'])->name('pastes.delete');
 
 Route::post('/pastes', [PastesController::class, 'store'])->name('pastes.store');
+
+Route::resource('pastes', PastesController::class);

@@ -61,13 +61,17 @@ class PostsController extends Controller
     public function updateForm($id){
         // ⏫()内に$idを追加
 
+         // 1. データベースから指定されたIDの投稿を取得
         $post = DB::table('posts')
 
         ->where('id',$id)
         // 第二引数を1=>$idに変更
+        // `id`カラムが渡された`$id`と一致する投稿を取得
 
         ->first();
+        // 最初の一致した投稿を取得（1件だけ取得）
 
+        // 2. 取得した投稿データをビューに渡す
         return view('posts.updateForm', ['post' => $post]);
 
     }

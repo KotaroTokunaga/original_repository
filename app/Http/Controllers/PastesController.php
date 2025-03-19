@@ -75,35 +75,25 @@ class PastesController extends Controller
            public function store(Request $request)
     {
 
-        // バリデーション前に入力内容を確認
-    dd($request->input('name')); // ここで値を確認
-
         // バリデーション
         $request->validate([
             'pasta' => 'required|string|max:255',
-            'name' => ['required', 'not_only_spaces'],
         ]);
-
-        // デバッグ: 入力データを確認
-        dd($request->all());
 
         // データを保存
-        $list = Paste::create([
-            'pasta' => $request->input('pasta'),
-            'user_id' => auth()->id(), // 現在のユーザーIDを保存
-        ]);
+        $list = new Paste();
+        $list->pasta = $request->input('pasta');
+        // $list->user_id = auth()->id();
+        $list->save();
 
-        // デバッグ出力
-    dd($list); // ここで保存したデータを確認
-
-        return redirect()->route('pastes.index');
+        return redirect()->route('pastes.index')->with('success', '投稿が成功しました。');
     }
 
     // 既存の投稿を編集するためのメソッド
     public function edit($id)
     {
-        $list = Paste::findOrFail($id); // 特定のIDの投稿を取得
-        return view('pastes.edit', compact('list')); // ビューにデータを渡す
+        $paste = Paste::findOrFail($id); // 特定のIDの投稿を取得
+        return view('pastes.edit', compact('paste')); // ビューにデータを渡す
     }
 
     // 更新メソッド（editメソッドと併せて使用される）
@@ -120,12 +110,11 @@ class PastesController extends Controller
 
         $list = Paste::findOrFail($pasteId);
 
-        // 権限チェック
-        if ($list->user_id !== $userId) {
+        // 権限チェック部分を削除
+        // if ($list->user_id !== $userId) {
 
         // 権限がない場合のレスポンス
-        return response()->json(['error' => '権限がありません'], 403);
-        }
+        // return response()->json(['error' => '権限がありません'], 403);}
         // このコードでは、特定の投稿が現在のユーザーによって作成されたものであるかを確認しています。投稿の user_id が現在のユーザーのIDと一致しない場合、403 Forbidden エラーを返して、権限がないことを通知します。
 
         //投稿を更新
@@ -145,10 +134,9 @@ class PastesController extends Controller
         $userId = auth()->id(); // LaravelのAuthファサードを使用して現在のユーザーIDを取得
         $list = Paste::findOrFail($pastaId);
         // 権限チェック
-        if ($list->user_id !== $userId) {
+        // if ($list->user_id !== $userId) {
         // 権限がない場合のレスポンス
-        return response()->json(['error' => '権限がありません'], 403);
-        }
+        // return response()->json(['error' => '権限がありません'], 403);}
         // このコードでは、現在ログインしているユーザーのIDを取得し、そのIDに基づいてデータベースからそのユーザーの投稿を取得している
 
         // これにより、ユーザーごとに投稿をフィルタリングし、他のユーザーの投稿が見えないようにすることが可能

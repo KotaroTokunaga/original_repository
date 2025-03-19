@@ -21,13 +21,14 @@ class Pastes extends Migration
 
             $table->id();// 自動増分のidカラム
 
-            $table->string('pasta',255);
+            $table->string('user_name')->after('id'); // 'id'の後にuser_nameカラムを追加
 
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->text('contents');
 
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+            $table->timestamps(); // created_at, updated_atカラムを自動で作成
 
         });
+
     }
 
     /**
@@ -37,8 +38,8 @@ class Pastes extends Migration
      */
     public function down()
     {
-        //
 
-        Schema::drop('pastes');
-    }
+        Schema::dropIfExists('pastes'); // pastesテーブルを削除
+}
+
 }

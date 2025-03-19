@@ -1,6 +1,10 @@
 @extends('layouts.app')
+<!-- @extendsで指定されたapp.blade.phpの方が親となり、index.blade.php（このファイル）の方がビューファイルとなる -->
 
 @section('content')
+<!-- @section('content')」と、一番下の「@endsection」の2行が追加されました。
+
+これで、親である「app.balde.php」内の「@yield('content')」で指定されている箇所に、設定したセクション範囲内にあるコードが反映されるようになります。 -->
 
 <div class='container'>
 

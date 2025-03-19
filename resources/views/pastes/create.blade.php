@@ -25,12 +25,6 @@
             <input type="text" class="form-control" id="pasta" name="pasta" placeholder="投稿内容を入力">
         </div>
 
-        <div class="form-group">
-
-         <label for="name">名前:</label>
-         <input type="text" class="form-control" id="name" name="name" placeholder="あなたの名前を入力">
-        </div>
-
         <button type="submit" class="btn btn-primary">投稿する</button>
     </form>
 </div>
