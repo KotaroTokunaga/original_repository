@@ -42,8 +42,6 @@ Route::get('index',[PostsController::class, 'index']);
 // パスタ好きの集うサイト_投稿一覧ページ
 Route::get('/pastes',[PastesController::class, 'index'])->name('pastes.index');
 
-
-
 // http://127.0.0.1:8000/index_Pa というリンクでアクセスできるページが作られた。PastesControllerのindex_Paメソッドを利用しページを展開している
 
 Route::get('/create-form', [PostsController::class, 'createForm']);
@@ -73,6 +71,9 @@ Route::get('pasta/{id}/delete', [PastesController::class, 'delete']);
 Auth::routes();
 
 Route::get('/home', [PastesController::class, 'index']);
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+
 
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 

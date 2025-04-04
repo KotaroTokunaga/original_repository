@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -69,5 +71,26 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * Register a new user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        // バリデーション
+        $this->validator($request->all())->validate();
+
+        // ユーザー作成
+        $user = $this->create($request->all());
+
+        // ユーザーをログイン
+        Auth::login($user);
+
+        // ログインページへリダイレクト
+        return redirect()->route('login');
     }
 }
