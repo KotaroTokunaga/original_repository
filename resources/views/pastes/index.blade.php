@@ -18,6 +18,15 @@
   </form>
 </div>
 
+<br>
+
+<div class='login-user'>
+    ログインユーザー：{{ Auth::check() ? Auth::user()->name : '不明なユーザー' }}
+    <!-- 現在のログインユーザーを表示するコード -->
+</div>
+
+<br>
+
 <!-- 検索結果が見つかった時、「一覧に戻る」を表示 -->
  @if(request('search'))
     @if(isset($message))
@@ -41,6 +50,8 @@
 
 <th>投稿日時</th>
 
+<th>投稿者</th>
+
 <th>更新</th>
 
 <th>削除</th>
@@ -50,18 +61,27 @@
 @foreach ($lists as $list)
             <tr>
                 <td>{{ $list->id }}</td>
-                <td>{{ $list->pasta }}</td>
+                <td>{{ $list->contents }}</td>
+                <!-- $list->pastaとなっていた記述を修正 -->
                 <td>{{ $list->created_at }}</td>
+                <td>{{ $list->user->name ?? '不明なユーザー' }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ route('pastes.edit', $list->id) }}">更新</a>
+                 {{-- ★ ログインユーザーと投稿者が一致している場合だけ表示 --}}
+                @if (Auth::check() && Auth::id() == $list->user_id)
+                <a href="{{ route('pastes.edit', $list->id) }}" class="btn btn-primary">更新</a>
+                    <!-- <a class="btn btn-primary" href="{{ route('pastes.edit', $list->id) }}">更新</a> -->
+                     @endif
                 </td>
                 <td>
+                    {{-- ★ ログインユーザーと投稿者が一致している場合だけ削除ボタン表示 --}}
+            @if (Auth::check() && Auth::id() == $list->user_id)
                     <form action="{{ route('pastes.delete', $list->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger" onclick="return confirm('こちらの投稿を削除してもよろしいですか？')">削除</button>
                     </form>
                     <!-- formの閉じタブが抜けていたため、削除ボタンを押してもどの投稿かに関わらず投稿No.の若い順から削除されてしまっていた。 -->
+                     @endif
                 </td>
             </tr>
         @endforeach

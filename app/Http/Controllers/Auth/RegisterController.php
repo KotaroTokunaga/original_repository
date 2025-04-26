@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -79,7 +80,7 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
         // バリデーション
         $this->validator($request->all())->validate();
@@ -88,7 +89,7 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
 
         // ユーザーをログイン
-        Auth::login($user);
+        //Auth::login($user);
 
         // ログインページへリダイレクト
         return redirect()->route('login');

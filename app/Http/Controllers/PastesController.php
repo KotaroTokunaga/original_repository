@@ -28,7 +28,10 @@ class PastesController extends Controller
     public function index()
     {
         // データベースから全ての投稿を取得
-        $lists = Paste::all();
+        //$lists = Paste::all();
+
+        // 投稿に紐ずくユーザーを読み込む
+        $lists = Paste::with('user')->get();
 
         //現在のユーザーIDを基にフィルタリング
         $userId = auth()->id();
@@ -102,7 +105,7 @@ class PastesController extends Controller
     {
         // バリデーション
         $request->validate([
-            'pasta' => 'required|string|max:255',
+            'contents' => 'required|string|max:100',
         ]);
 
         // 投稿を取得
@@ -119,7 +122,7 @@ class PastesController extends Controller
 
         //投稿を更新
         $list->update([
-            'pasta' => $request->input('pasta'),
+            'contents' => $request->input('contents'),
         ]);
 
         //更新後、投稿一覧にリダイレクト

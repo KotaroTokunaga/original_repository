@@ -68,7 +68,7 @@ Route::get('post/{id}/delete', [PostsController::class, 'delete']);
 
 Route::get('pasta/{id}/delete', [PastesController::class, 'delete']);
 
-Auth::routes();
+Auth::routes();//registerメソッドの辿る先
 
 Route::get('/home', [PastesController::class, 'index']);
 
