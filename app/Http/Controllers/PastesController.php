@@ -10,6 +10,8 @@ use App\Http\Requests\CustomRequest;
 
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Auth;
+
 class PastesController extends Controller
 {
 
@@ -80,12 +82,16 @@ class PastesController extends Controller
 
         // バリデーション
         $request->validate([
-            'pasta' => 'required|string|max:255',
+            'contents' => 'required|string|max:255',
         ]);
 
         // データを保存
         $list = new Paste();
-        $list->pasta = $request->input('pasta');
+        $list->contents = $request->input('contents');
+        // pastaを全てcontentsに変更
+
+        $list->user_id = Auth::id(); //これを追加 '25/05/01
+
         // $list->user_id = auth()->id();
         $list->save();
 

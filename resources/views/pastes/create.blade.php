@@ -21,8 +21,8 @@
         @csrf
 
         <div class="form-group">
-            <label for="pasta">投稿内容:</label>
-            <input type="text" class="form-control" id="pasta" name="pasta" placeholder="投稿内容を入力">
+            <label for="contents">投稿内容:</label>
+            <input type="text" class="form-control" id="contents" name="contents" placeholder="投稿内容を入力">
         </div>
 
         <button type="submit" class="btn btn-primary">投稿する</button>
